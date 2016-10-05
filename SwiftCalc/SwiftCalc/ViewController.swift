@@ -21,7 +21,10 @@ class ViewController: UIViewController {
     
     // TODO: This looks like a good place to add some data structures.
     //       One data structure is initialized below for reference.
-    var someDataStructure: [String] = [""]
+    var firstNumber: String = ""
+    var operation: String = ""
+    var secondNumber: String = ""
+    var typingFirst: Bool = true
     
 
     override func viewDidLoad() {
@@ -46,26 +49,44 @@ class ViewController: UIViewController {
     // TODO: A method to update your data structure(s) would be nice.
     //       Modify this one or create your own.
     func updateSomeDataStructure(_ content: String) {
-        print("Update me like one of those PCs")
+        print("Update some data structure")
     }
     
     // TODO: Ensure that resultLabel gets updated.
     //       Modify this one or create your own.
     func updateResultLabel(_ content: String) {
-        print("Update me like one of those PCs")
+        print("Update result label with: " + content)
+        resultLabel.text = content
     }
     
     
     // TODO: A calculate method with no parameters, scary!
     //       Modify this one or create your own.
     func calculate() -> String {
-        return "0"
+        if (firstNumber != "" && secondNumber != "" && operation != ""){
+            return String(calculate(a: firstNumber, b:secondNumber, operation: operation))
+        }
+        else {
+            return resultLabel.text!
+        }
     }
     
     // TODO: A simple calculate method for integers.
     //       Modify this one or create your own.
     func intCalculate(a: Int, b:Int, operation: String) -> Int {
         print("Calculation requested for \(a) \(operation) \(b)")
+        typingFirst = true
+        if operation == "+" {
+            return a + b
+        } else if operation == "-" {
+            return a - b
+        }
+        else if operation == "*" {
+            return a * b
+        }
+        else if operation == "/" {
+            return a / b
+        }
         return 0
     }
     
@@ -73,6 +94,18 @@ class ViewController: UIViewController {
     //       Modify this one or create your own.
     func calculate(a: String, b:String, operation: String) -> Double {
         print("Calculation requested for \(a) \(operation) \(b)")
+        typingFirst = true
+        if operation == "+" {
+            return Double(a)! + Double(b)!
+        } else if operation == "-" {
+            return Double(a)! - Double(b)!
+        }
+        else if operation == "/" {
+            return  Double(a)! / Double(b)!
+        }
+        else if operation == "*" {
+            return  Double(a)! * Double(b)!
+        }
         return 0.0
     }
     
@@ -80,17 +113,100 @@ class ViewController: UIViewController {
     func numberPressed(_ sender: CustomButton) {
         guard Int(sender.content) != nil else { return }
         print("The number \(sender.content) was pressed")
+        if resultLabel.text!.characters.count <= 7 {
         // Fill me in!
+            if typingFirst == true {
+                firstNumber.append(sender.content)
+                updateResultLabel(firstNumber)
+            }
+            else {
+                secondNumber.append(sender.content)
+                updateResultLabel(secondNumber)
+            }
+        }
     }
     
     // REQUIRED: The responder to an operator button being pressed.
     func operatorPressed(_ sender: CustomButton) {
         // Fill me in!
+        if (sender.content == "=") {
+            let result = calculate()
+            updateResultLabel(String(result))
+            print("got here" + firstNumber + operation + secondNumber + " " + result)
+            firstNumber = ""
+            secondNumber = ""
+            operation = ""
+            typingFirst = true
+            
+        }
+        else if(sender.content == "C"){
+            print("got here" + firstNumber + operation + secondNumber + " ")
+            typingFirst = true
+            firstNumber = ""
+            secondNumber = ""
+            operation = ""
+            updateResultLabel("0")
+        }
+        else if(sender.content == "+"){
+
+            typingFirst = false
+            operation = "+"
+        }
+        else if(sender.content == "-"){
+            print("got here" + firstNumber + operation + secondNumber + " ")
+
+            typingFirst = false
+            operation = "-"
+        }
+        else if(sender.content == "/"){
+            print("got here" + firstNumber + operation + secondNumber + " ")
+
+            typingFirst = false
+            operation = "/"
+        }
+        else if(sender.content == "*"){
+            print("got here" + firstNumber + operation + secondNumber + " ")
+
+            typingFirst = false
+            operation = "*"
+        }
+        else if(sender.content == "+/-"){
+            print("got here" + firstNumber + operation + secondNumber + " ")
+
+            operation = ""
+            if typingFirst && firstNumber != "0" {
+                firstNumber = String(-1 * Double(firstNumber)!)
+                updateResultLabel(firstNumber)
+            }
+            else if secondNumber != "0" {
+                secondNumber = String(-1 * Double(secondNumber)!)
+                updateResultLabel(secondNumber)
+            }
+        }
+        else if(sender.content == "."){
+            if typingFirst {
+                firstNumber.append(".")
+                updateResultLabel(firstNumber)
+            }
+            else {
+                secondNumber.append(".")
+                updateResultLabel(secondNumber)
+            }
+        }
+        print("Operator was pressed: " + sender.content + " " + operation)
+
     }
     
     // REQUIRED: The responder to a number or operator button being pressed.
     func buttonPressed(_ sender: CustomButton) {
        // Fill me in!
+        let numbers = ["1", "2", "3", "4", "5", "6", "7", "8", "9","0"]
+        if numbers.contains(sender.content) {
+            numberPressed(sender)
+        }
+        else {
+            operatorPressed(sender)
+        }
     }
     
     // IMPORTANT: Do NOT change any of the code below.
