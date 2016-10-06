@@ -209,9 +209,7 @@ class ViewController: UIViewController {
             operation = "*"
         }
         else if(sender.content == "+/-"){
-            print("got here" + firstNumber + operation + secondNumber + " ")
-            
-            operation = ""
+            print("got here" + firstNumber + operation + secondNumber + " ")            
             if typingFirst && firstNumber != "0" {
                 if firstNumber.contains(".") {
                     firstNumber = String(-1 * Double(firstNumber)!)
