@@ -122,7 +122,7 @@ class ViewController: UIViewController {
     func numberPressed(_ sender: CustomButton) {
         guard Int(sender.content) != nil else { return }
         print("The number \(sender.content) was pressed")
-        if resultLabel.text!.characters.count <= 7 {
+        if resultLabel.text!.characters.count < 7 {
             // Fill me in!
             if typingFirst == true && operation == "" {
                 firstNumber.append(sender.content)
