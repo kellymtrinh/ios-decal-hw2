@@ -64,7 +64,12 @@ class ViewController: UIViewController {
     //       Modify this one or create your own.
     func calculate() -> String {
         if (firstNumber != "" && secondNumber != "" && operation != ""){
-            return String(calculate(a: firstNumber, b:secondNumber, operation: operation))
+            if (firstNumber.contains(".") || secondNumber.contains(".")) {
+                return String(calculate(a: firstNumber, b:secondNumber, operation: operation))
+            }
+            else {
+                return String(intCalculate(a: Int(firstNumber)!, b: Int(secondNumber)!, operation: operation))
+            }
         }
         else {
             return resultLabel.text!
@@ -74,10 +79,10 @@ class ViewController: UIViewController {
     // TODO: A simple calculate method for integers.
     //       Modify this one or create your own.
     func intCalculate(a: Int, b:Int, operation: String) -> Int {
-        print("Calculation requested for \(a) \(operation) \(b)")
+        print("Calculation requested for \(a) \(operation) \(b) int")
         typingFirst = true
         if operation == "+" {
-            return a + b
+            return Int(a + b)
         } else if operation == "-" {
             return a - b
         }
@@ -133,7 +138,7 @@ class ViewController: UIViewController {
             let result = calculate()
             updateResultLabel(String(result))
             print("got here" + firstNumber + operation + secondNumber + " " + result)
-            firstNumber = ""
+            firstNumber = result
             secondNumber = ""
             operation = ""
             typingFirst = true
@@ -148,13 +153,11 @@ class ViewController: UIViewController {
             updateResultLabel("0")
         }
         else if(sender.content == "+"){
-
             typingFirst = false
             operation = "+"
         }
         else if(sender.content == "-"){
             print("got here" + firstNumber + operation + secondNumber + " ")
-
             typingFirst = false
             operation = "-"
         }
