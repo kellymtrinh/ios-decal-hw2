@@ -124,7 +124,7 @@ class ViewController: UIViewController {
         print("The number \(sender.content) was pressed")
         if resultLabel.text!.characters.count <= 7 {
             // Fill me in!
-            if typingFirst == true {
+            if typingFirst == true && operation == "" {
                 firstNumber.append(sender.content)
                 updateResultLabel(firstNumber)
             }
@@ -157,23 +157,54 @@ class ViewController: UIViewController {
             updateResultLabel("0")
         }
         else if(sender.content == "+"){
+            if firstNumber != "" && secondNumber != "" {
+                let result = calculate()
+                updateResultLabel(String(result))
+                print("got here" + firstNumber + operation + secondNumber + " " + result)
+                firstNumber = result
+                secondNumber = ""
+            }
+            typingFirst = false
             typingFirst = false
             operation = "+"
         }
         else if(sender.content == "-"){
             print("got here" + firstNumber + operation + secondNumber + " ")
+            if firstNumber != "" && secondNumber != "" {
+                let result = calculate()
+                updateResultLabel(String(result))
+                print("got here" + firstNumber + operation + secondNumber + " " + result)
+                firstNumber = result
+                secondNumber = ""
+            }
+            typingFirst = false
             typingFirst = false
             operation = "-"
         }
         else if(sender.content == "/"){
             print("got here" + firstNumber + operation + secondNumber + " ")
             
+            if firstNumber != "" && secondNumber != "" {
+                let result = calculate()
+                updateResultLabel(String(result))
+                print("got here" + firstNumber + operation + secondNumber + " " + result)
+                firstNumber = result
+                secondNumber = ""
+            }
             typingFirst = false
             operation = "/"
+
         }
         else if(sender.content == "*"){
             print("got here" + firstNumber + operation + secondNumber + " ")
             
+            if firstNumber != "" && secondNumber != "" {
+                let result = calculate()
+                updateResultLabel(String(result))
+                print("got here" + firstNumber + operation + secondNumber + " " + result)
+                firstNumber = result
+                secondNumber = ""
+            }
             typingFirst = false
             operation = "*"
         }
